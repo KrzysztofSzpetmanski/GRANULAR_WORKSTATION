@@ -7,7 +7,7 @@
 namespace granular {
 
 inline float envelopeRectish(float phase01) {
-    const float edge = 0.04f;
+    const float edge = 0.005f;
     if (phase01 < edge) {
         return phase01 / edge;
     }
@@ -26,14 +26,16 @@ inline float envelopeHann(float phase01) {
 }
 
 inline float envelopeGaussian(float phase01) {
-    const float x = (phase01 - 0.5f) * 2.6f;
+    const float x = (phase01 - 0.5f) * 4.2f;
     return std::exp(-0.5f * x * x);
 }
 
 inline float envelopeSmear(float phase01) {
-    const float rise = std::pow(phase01, 0.35f);
-    const float fall = std::pow(1.0f - phase01, 1.8f);
-    return rise * (0.4f + 0.6f * fall);
+    // Reverse-swell style: slower rise + smooth late fade.
+    const float rise = std::pow(phase01, 1.9f);
+    const float body = 1.0f - 0.25f * std::pow(phase01, 0.65f);
+    const float tail = std::pow(1.0f - phase01, 0.6f);
+    return rise * body * tail;
 }
 
 inline float morph2(float a, float b, float t) {
@@ -51,18 +53,22 @@ inline float grainEnvelope(float phase01, float texture) {
     const float smear = envelopeSmear(p);
 
     float out = 0.0f;
-    if (t < 0.25f) {
-        out = morph2(rectish, tri, t / 0.25f);
+    if (t < 0.2f) {
+        out = morph2(rectish, tri, t / 0.2f);
     }
-    else if (t < 0.5f) {
-        out = morph2(tri, hann, (t - 0.25f) / 0.25f);
+    else if (t < 0.45f) {
+        out = morph2(tri, hann, (t - 0.2f) / 0.25f);
     }
     else if (t < 0.75f) {
-        out = morph2(hann, gauss, (t - 0.5f) / 0.25f);
+        out = morph2(hann, gauss, (t - 0.45f) / 0.3f);
     }
     else {
         out = morph2(gauss, smear, (t - 0.75f) / 0.25f);
     }
+
+    // Extra contrast: left side harder, right side softer.
+    const float shapeExp = mapLinear(t, 0.72f, 1.45f);
+    out = std::pow(clamp01(out), shapeExp);
 
     return clamp01(out);
 }

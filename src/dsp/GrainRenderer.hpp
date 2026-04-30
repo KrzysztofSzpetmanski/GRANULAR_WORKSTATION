@@ -98,8 +98,19 @@ public:
             const float phase = static_cast<float>(g.ageSamples) / static_cast<float>(g.durationSamples);
             const float env = grainEnvelope(phase, g.texture);
 
-            const float sL = buffer.readL(g.posL, InterpolationMode::CubicHermite);
-            const float sR = buffer.readR(g.posR, InterpolationMode::CubicHermite);
+            const InterpolationMode interp = (g.texture < 0.2f) ? InterpolationMode::Linear : InterpolationMode::CubicHermite;
+            const float smear = clamp01((g.texture - 0.72f) * (1.0f / 0.28f));
+            const float smearOffset = smear * 1.25f * std::sin(phase * (18.0f + smear * 27.0f));
+
+            float sL = buffer.readL(g.posL, interp);
+            float sR = buffer.readR(g.posR, interp);
+            if (smear > 0.001f) {
+                const float blurL = buffer.readL(g.posL - smearOffset, interp);
+                const float blurR = buffer.readR(g.posR + smearOffset, interp);
+                const float blend = smear * 0.55f;
+                sL = sL + (blurL - sL) * blend;
+                sR = sR + (blurR - sR) * blend;
+            }
 
             float mono = 0.5f * (sL + sR);
             mono *= g.amp * env;
