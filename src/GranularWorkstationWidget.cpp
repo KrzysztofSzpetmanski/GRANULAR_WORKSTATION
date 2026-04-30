@@ -1,4 +1,5 @@
 #include "GranularWorkstationModule.hpp"
+#include "BuildNumber.hpp"
 
 #include <string>
 
@@ -43,6 +44,8 @@ struct GranularWorkstationWidget : ModuleWidget {
         const float y83 = 83.0f;
         const float y98 = 98.0f;
         const float y113 = 113.0f;
+        const float knobLabelOffset = 6.5f;
+        const float portLabelOffset = 6.2f;
 
         addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
@@ -90,39 +93,49 @@ struct GranularWorkstationWidget : ModuleWidget {
             addChild(label);
         };
 
+        auto addPanelLabelRight = [this](float xMm, float yMm, const std::string& txt, int size = 7, NVGcolor color = nvgRGB(0x1f, 0x29, 0x37)) {
+            auto* label = createWidget<PanelLabel>(mm2px(Vec(xMm, yMm)));
+            label->text = txt;
+            label->fontSize = size;
+            label->align = NVG_ALIGN_RIGHT | NVG_ALIGN_BASELINE;
+            label->color = color;
+            addChild(label);
+        };
+
         addPanelLabel(40.5f, 8.2f, "GRANULAR WORKSTATION", 10, nvgRGB(0x0b, 0x12, 0x20));
-        addPanelLabel(40.5f, 14.2f, "LIVE GRANULAR REVERB LAB", 7, nvgRGB(0x1f, 0x29, 0x37));
+        addPanelLabel(40.5f, 13.7f, "LIVE GRANULAR REVERB LAB", 7, nvgRGB(0x1f, 0x29, 0x37));
+        addPanelLabelRight(76.8f, 8.3f, rack::string::f("BUILD %d", BuildNumber::kBuildNumber), 6, nvgRGB(0x33, 0x41, 0x55));
 
-        addPanelLabel(x10, y23 - 8.0f, "MIX", 7);
-        addPanelLabel(x25, y23 - 8.0f, "SIZE/REV", 7);
-        addPanelLabel(x40, y23 - 8.0f, "TEXTURE", 7);
-        addPanelLabel(x55, y23 - 8.0f, "DENSITY", 7);
+        addPanelLabel(x10, y23 - knobLabelOffset, "MIX", 7);
+        addPanelLabel(x25, y23 - knobLabelOffset, "SIZE/REV", 7);
+        addPanelLabel(x40, y23 - knobLabelOffset, "TEXTURE", 7);
+        addPanelLabel(x55, y23 - knobLabelOffset, "DENSITY", 7);
 
-        addPanelLabel(x10, y38 - 8.0f, "OVERLAP", 7);
-        addPanelLabel(x25, y38 - 8.0f, "POS/SPREAD", 7);
-        addPanelLabel(x40, y38 - 8.0f, "PITCH", 7);
-        addPanelLabel(x55, y38 - 8.0f, "LOFIHI", 7);
+        addPanelLabel(x10, y38 - knobLabelOffset, "OVERLAP", 7);
+        addPanelLabel(x25, y38 - knobLabelOffset, "POS/SPREAD", 7);
+        addPanelLabel(x40, y38 - knobLabelOffset, "PITCH", 7);
+        addPanelLabel(x55, y38 - knobLabelOffset, "LOFIHI", 7);
 
-        addPanelLabel(x10, y53 - 8.0f, "SPACE", 7);
-        addPanelLabel(x25, y53 - 8.0f, "FEEDBACK", 7);
-        addPanelLabel(x40, y53 - 8.0f, "DAMP", 7);
-        addPanelLabel(x55, y53 - 8.0f, "REVERB", 7);
-        addPanelLabel(x70, y53 - 8.0f, "FREEZE", 7);
+        addPanelLabel(x10, y53 - knobLabelOffset, "SPACE", 7);
+        addPanelLabel(x25, y53 - knobLabelOffset, "FEEDBACK", 7);
+        addPanelLabel(x40, y53 - knobLabelOffset, "DAMP", 7);
+        addPanelLabel(x55, y53 - knobLabelOffset, "REVERB", 7);
+        addPanelLabel(x70, y53 - knobLabelOffset, "FREEZE", 7);
 
-        addPanelLabel(x10, y83 - 8.0f, "IN L", 7);
-        addPanelLabel(x25, y83 - 8.0f, "IN R", 7);
-        addPanelLabel(x40, y83 - 8.0f, "OUT L", 7);
-        addPanelLabel(x55, y83 - 8.0f, "OUT R", 7);
-        addPanelLabel(x70, y83 - 8.0f, "CLOCK", 7);
+        addPanelLabel(x10, y83 - portLabelOffset, "IN L", 7);
+        addPanelLabel(x25, y83 - portLabelOffset, "IN R", 7);
+        addPanelLabel(x40, y83 - portLabelOffset, "OUT L", 7);
+        addPanelLabel(x55, y83 - portLabelOffset, "OUT R", 7);
+        addPanelLabel(x70, y83 - portLabelOffset, "CLOCK", 7);
 
-        addPanelLabel(x10, y98 - 8.0f, "SIZE CV", 7);
-        addPanelLabel(x25, y98 - 8.0f, "DENS CV", 7);
-        addPanelLabel(x40, y98 - 8.0f, "POS CV", 7);
-        addPanelLabel(x55, y98 - 8.0f, "PITCH CV", 7);
-        addPanelLabel(x70, y98 - 8.0f, "FB CV", 7);
+        addPanelLabel(x10, y98 - portLabelOffset, "SIZE CV", 7);
+        addPanelLabel(x25, y98 - portLabelOffset, "DENS CV", 7);
+        addPanelLabel(x40, y98 - portLabelOffset, "POS CV", 7);
+        addPanelLabel(x55, y98 - portLabelOffset, "PITCH CV", 7);
+        addPanelLabel(x70, y98 - portLabelOffset, "FB CV", 7);
 
-        addPanelLabel(x10, y113 - 8.0f, "MIX CV", 7);
-        addPanelLabel(x25, y113 - 8.0f, "FRZ GATE", 7);
+        addPanelLabel(x10, y113 - portLabelOffset, "MIX CV", 7);
+        addPanelLabel(x25, y113 - portLabelOffset, "FRZ GATE", 7);
     }
 
     void appendContextMenu(Menu* menu) override {

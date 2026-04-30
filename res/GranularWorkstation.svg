@@ -10,8 +10,8 @@
   <rect x="0" y="0" width="81.0" height="128.5" fill="url(#bg)"/>
   <rect x="2" y="2" width="77.0" height="124.5" fill="none" stroke="#1f2937" stroke-width="0.8"/>
 
-  <rect x="4" y="4" width="73.0" height="12.0" fill="#e2e8f0" stroke="#64748b" stroke-width="0.35"/>
-  <rect x="4" y="16.8" width="73.0" height="56.2" fill="#edf2f7" stroke="#94a3b8" stroke-width="0.25"/>
+  <rect x="4" y="4" width="73.0" height="8.4" fill="#e2e8f0" stroke="#64748b" stroke-width="0.35"/>
+  <rect x="4" y="13.4" width="73.0" height="59.6" fill="#edf2f7" stroke="#94a3b8" stroke-width="0.25"/>
 
   <line x1="4" y1="73.6" x2="77" y2="73.6" stroke="#64748b" stroke-width="0.4"/>
   <line x1="4" y1="121.5" x2="77" y2="121.5" stroke="#94a3b8" stroke-width="0.3"/>
