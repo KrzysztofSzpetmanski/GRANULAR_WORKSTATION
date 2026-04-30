@@ -99,7 +99,7 @@ public:
             const float env = grainEnvelope(phase, g.texture);
 
             const InterpolationMode interp = (g.texture < 0.2f) ? InterpolationMode::Linear : InterpolationMode::CubicHermite;
-            const float smear = clamp01((g.texture - 0.72f) * (1.0f / 0.28f));
+            const float smear = clamp01((g.texture - 0.8f) * (1.0f / 0.2f));
             const float smearOffset = smear * 1.25f * std::sin(phase * (18.0f + smear * 27.0f));
 
             float sL = buffer.readL(g.posL, interp);
