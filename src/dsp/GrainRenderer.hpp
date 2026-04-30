@@ -41,14 +41,11 @@ public:
         g.active = true;
         g.ageSamples = 0;
         g.texture = clamp01(p.texture);
-        g.lofiHi = clamp01(p.lofiHi);
+        g.reverse = (rng_.nextFloat01() < clamp01(p.reverseProb));
 
-        const bool reverse = p.sizeRev < 0.0f;
-        g.reverse = reverse;
-
-        float grainMs = mapExp(std::fabs(p.sizeRev), 8.0f, 800.0f);
+        float grainMs = mapExp(p.size, 5.0f, 1000.0f);
         if (p.mode == GranMode::MicroLoop) {
-            grainMs = mapExp(std::fabs(p.sizeRev), 4.0f, 120.0f);
+            grainMs = mapExp(p.size, 4.0f, 140.0f);
         }
 
         const float overlapScale = mapLinear(p.overlap, 0.7f, 2.5f);
@@ -58,7 +55,7 @@ public:
 
         const float pitchSemi = p.pitch * 24.0f;
         const float pitchRatio = semiToRatio(pitchSemi);
-        g.step = reverse ? -pitchRatio : pitchRatio;
+        g.step = g.reverse ? -pitchRatio : pitchRatio;
 
         const float maxTailMs = mapExp(p.positionSpread, 20.0f, buffer.getLengthMs() * 0.95f);
         const float ageMs = selectAgeMs(p, maxTailMs);
@@ -101,11 +98,8 @@ public:
             const float phase = static_cast<float>(g.ageSamples) / static_cast<float>(g.durationSamples);
             const float env = grainEnvelope(phase, g.texture);
 
-            const InterpolationMode mode = modeFromLofi(g.lofiHi);
-            const float jitter = (g.lofiHi < 0.2f) ? (0.1f * std::sin(phase * 97.0f)) : 0.0f;
-
-            const float sL = buffer.readL(g.posL + jitter, mode);
-            const float sR = buffer.readR(g.posR - jitter, mode);
+            const float sL = buffer.readL(g.posL, InterpolationMode::CubicHermite);
+            const float sR = buffer.readR(g.posR, InterpolationMode::CubicHermite);
 
             float mono = 0.5f * (sL + sR);
             mono *= g.amp * env;
@@ -146,16 +140,6 @@ private:
             }
         }
         return count;
-    }
-
-    InterpolationMode modeFromLofi(float lofiHi) const {
-        if (lofiHi < 0.25f) {
-            return InterpolationMode::Nearest;
-        }
-        if (lofiHi < 0.65f) {
-            return InterpolationMode::Linear;
-        }
-        return InterpolationMode::CubicHermite;
     }
 
     float selectAgeMs(const GranularWorkstationParams& p, float maxTailMs) {

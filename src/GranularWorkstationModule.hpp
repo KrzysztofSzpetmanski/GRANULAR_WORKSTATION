@@ -6,13 +6,13 @@
 struct GranularWorkstation : Module {
     enum ParamIds {
         MIX_PARAM,
-        SIZE_REV_PARAM,
+        SIZE_PARAM,
         TEXTURE_PARAM,
         DENSITY_PARAM,
         OVERLAP_PARAM,
         POSITION_SPREAD_PARAM,
         PITCH_PARAM,
-        LOFIHI_PARAM,
+        REVERSE_PARAM,
         SPACE_PARAM,
         FEEDBACK_PARAM,
         DAMP_PARAM,

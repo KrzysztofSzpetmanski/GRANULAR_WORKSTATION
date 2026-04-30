@@ -13,7 +13,6 @@ struct Grain {
     float pan = 0.0f;
     bool reverse = false;
     float texture = 0.5f;
-    float lofiHi = 1.0f;
 };
 
 } // namespace granular

@@ -1,5 +1,5 @@
 #pragma once
 
 struct BuildNumber {
-    static constexpr int kBuildNumber = 3;
+    static constexpr int kBuildNumber = 4;
 };

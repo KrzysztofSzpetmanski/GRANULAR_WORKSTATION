@@ -53,14 +53,14 @@ struct GranularWorkstationWidget : ModuleWidget {
         addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
         addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x10, y23)), module, GranularWorkstation::MIX_PARAM));
-        addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x25, y23)), module, GranularWorkstation::SIZE_REV_PARAM));
+        addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x25, y23)), module, GranularWorkstation::SIZE_PARAM));
         addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x40, y23)), module, GranularWorkstation::TEXTURE_PARAM));
         addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x55, y23)), module, GranularWorkstation::DENSITY_PARAM));
 
         addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x10, y38)), module, GranularWorkstation::OVERLAP_PARAM));
         addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x25, y38)), module, GranularWorkstation::POSITION_SPREAD_PARAM));
         addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x40, y38)), module, GranularWorkstation::PITCH_PARAM));
-        addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x55, y38)), module, GranularWorkstation::LOFIHI_PARAM));
+        addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x55, y38)), module, GranularWorkstation::REVERSE_PARAM));
 
         addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x10, y53)), module, GranularWorkstation::SPACE_PARAM));
         addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(x25, y53)), module, GranularWorkstation::FEEDBACK_PARAM));
@@ -103,18 +103,18 @@ struct GranularWorkstationWidget : ModuleWidget {
         };
 
         addPanelLabel(40.5f, 8.2f, "GRANULAR WORKSTATION", 10, nvgRGB(0x0b, 0x12, 0x20));
-        addPanelLabel(40.5f, 8.7f, "LIVE GRANULAR REVERB LAB", 7, nvgRGB(0x1f, 0x29, 0x37));
-        addPanelLabelRight(76.8f, 8.3f, rack::string::f("BUILD %d", BuildNumber::kBuildNumber), 6, nvgRGB(0x33, 0x41, 0x55));
+        addPanelLabel(40.5f, 10.7f, "LIVE GRANULAR REVERB LAB", 7, nvgRGB(0x1f, 0x29, 0x37));
+        addPanelLabelRight(66.8f, 8.3f, rack::string::f("BUILD %d", BuildNumber::kBuildNumber), 6, nvgRGB(0x33, 0x41, 0x55));
 
         addPanelLabel(x10, y23 - knobLabelOffset, "DRY/WET", 7);
-        addPanelLabel(x25, y23 - knobLabelOffset, "SIZE/REV", 7);
+        addPanelLabel(x25, y23 - knobLabelOffset, "SIZE", 7);
         addPanelLabel(x40, y23 - knobLabelOffset, "TEXTURE", 7);
         addPanelLabel(x55, y23 - knobLabelOffset, "DENSITY", 7);
 
         addPanelLabel(x10, y38 - knobLabelOffset, "OVERLAP", 7);
         addPanelLabel(x25, y38 - knobLabelOffset, "POS/SPREAD", 7);
         addPanelLabel(x40, y38 - knobLabelOffset, "PITCH", 7);
-        addPanelLabel(x55, y38 - knobLabelOffset, "LOFIHI", 7);
+        addPanelLabel(x55, y38 - knobLabelOffset, "REVERSE", 7);
 
         addPanelLabel(x10, y53 - knobLabelOffset, "SPACE", 7);
         addPanelLabel(x25, y53 - knobLabelOffset, "FEEDBACK", 7);

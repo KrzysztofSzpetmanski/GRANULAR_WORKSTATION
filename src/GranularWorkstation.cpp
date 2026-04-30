@@ -8,13 +8,13 @@ GranularWorkstation::GranularWorkstation() {
     config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
     configParam(MIX_PARAM, 0.0f, 1.0f, 0.5f, "Dry / Wet");
-    configParam(SIZE_REV_PARAM, -1.0f, 1.0f, 0.2f, "Size / Reverse");
+    configParam(SIZE_PARAM, 0.0f, 1.0f, 0.2f, "Size");
     configParam(TEXTURE_PARAM, 0.0f, 1.0f, 0.5f, "Texture");
     configParam(DENSITY_PARAM, 0.0f, 1.0f, 0.4f, "Density");
     configParam(OVERLAP_PARAM, 0.0f, 1.0f, 0.5f, "Overlap");
     configParam(POSITION_SPREAD_PARAM, 0.0f, 1.0f, 0.5f, "Position / Spread");
     configParam(PITCH_PARAM, -1.0f, 1.0f, 0.0f, "Pitch", " st", 0.0f, 24.0f);
-    configParam(LOFIHI_PARAM, 0.0f, 1.0f, 1.0f, "Lofi / Hifi");
+    configParam(REVERSE_PARAM, 0.0f, 1.0f, 0.0f, "Reverse probability", " %", 0.0f, 100.0f);
     configParam(SPACE_PARAM, 0.0f, 1.0f, 0.5f, "Space");
     configParam(FEEDBACK_PARAM, 0.0f, 1.0f, 0.3f, "Feedback");
     configParam(DAMP_PARAM, 0.0f, 1.0f, 0.6f, "Damp");
@@ -23,7 +23,7 @@ GranularWorkstation::GranularWorkstation() {
 
     configInput(IN_L_INPUT, "Left audio");
     configInput(IN_R_INPUT, "Right audio");
-    configInput(SIZE_CV_INPUT, "Size / Reverse CV");
+    configInput(SIZE_CV_INPUT, "Size CV");
     configInput(DENSITY_CV_INPUT, "Density CV");
     configInput(POSITION_SPREAD_CV_INPUT, "Position / Spread CV");
     configInput(PITCH_CV_INPUT, "Pitch CV");
@@ -92,13 +92,13 @@ void GranularWorkstation::process(const ProcessArgs& args) {
     granular::GranularWorkstationParams p;
     p.mode = mode_;
     p.mix = param01WithCv(MIX_PARAM, MIX_CV_INPUT);
-    p.sizeRev = paramSignedWithCv(SIZE_REV_PARAM, SIZE_CV_INPUT, 0.1f);
+    p.size = param01WithCv(SIZE_PARAM, SIZE_CV_INPUT);
     p.texture = clamp(params[TEXTURE_PARAM].getValue(), 0.0f, 1.0f);
     p.density = param01WithCv(DENSITY_PARAM, DENSITY_CV_INPUT);
     p.overlap = clamp(params[OVERLAP_PARAM].getValue(), 0.0f, 1.0f);
     p.positionSpread = param01WithCv(POSITION_SPREAD_PARAM, POSITION_SPREAD_CV_INPUT);
     p.pitch = paramSignedWithCv(PITCH_PARAM, PITCH_CV_INPUT, 0.2f);
-    p.lofiHi = clamp(params[LOFIHI_PARAM].getValue(), 0.0f, 1.0f);
+    p.reverseProb = clamp(params[REVERSE_PARAM].getValue(), 0.0f, 1.0f);
     p.space = clamp(params[SPACE_PARAM].getValue(), 0.0f, 1.0f);
     p.feedback = param01WithCv(FEEDBACK_PARAM, FEEDBACK_CV_INPUT);
     p.damp = clamp(params[DAMP_PARAM].getValue(), 0.0f, 1.0f);
