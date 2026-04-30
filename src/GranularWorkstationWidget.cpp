@@ -103,10 +103,10 @@ struct GranularWorkstationWidget : ModuleWidget {
         };
 
         addPanelLabel(40.5f, 8.2f, "GRANULAR WORKSTATION", 10, nvgRGB(0x0b, 0x12, 0x20));
-        addPanelLabel(40.5f, 13.7f, "LIVE GRANULAR REVERB LAB", 7, nvgRGB(0x1f, 0x29, 0x37));
+        addPanelLabel(40.5f, 8.7f, "LIVE GRANULAR REVERB LAB", 7, nvgRGB(0x1f, 0x29, 0x37));
         addPanelLabelRight(76.8f, 8.3f, rack::string::f("BUILD %d", BuildNumber::kBuildNumber), 6, nvgRGB(0x33, 0x41, 0x55));
 
-        addPanelLabel(x10, y23 - knobLabelOffset, "MIX", 7);
+        addPanelLabel(x10, y23 - knobLabelOffset, "DRY/WET", 7);
         addPanelLabel(x25, y23 - knobLabelOffset, "SIZE/REV", 7);
         addPanelLabel(x40, y23 - knobLabelOffset, "TEXTURE", 7);
         addPanelLabel(x55, y23 - knobLabelOffset, "DENSITY", 7);

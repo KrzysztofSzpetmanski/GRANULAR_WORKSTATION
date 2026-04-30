@@ -7,7 +7,7 @@
 GranularWorkstation::GranularWorkstation() {
     config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
-    configParam(MIX_PARAM, 0.0f, 1.0f, 0.5f, "Mix");
+    configParam(MIX_PARAM, 0.0f, 1.0f, 0.5f, "Dry / Wet");
     configParam(SIZE_REV_PARAM, -1.0f, 1.0f, 0.2f, "Size / Reverse");
     configParam(TEXTURE_PARAM, 0.0f, 1.0f, 0.5f, "Texture");
     configParam(DENSITY_PARAM, 0.0f, 1.0f, 0.4f, "Density");

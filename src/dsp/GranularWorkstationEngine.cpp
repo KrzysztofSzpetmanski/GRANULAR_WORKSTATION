@@ -94,8 +94,11 @@ void GranularWorkstationEngine::process(float inL, float inR, float& outL, float
     feedback_.process(reverbL, reverbR, m.feedback, m.damp, feedbackSendL_, feedbackSendR_);
 
     const float mix = clamp01(m.mix);
-    const float wetL = sanitize(reverbL + grainWetL * (1.0f - m.reverb));
-    const float wetR = sanitize(reverbR + grainWetR * (1.0f - m.reverb));
+    const float wetRawL = reverbL + grainWetL * (1.0f - m.reverb);
+    const float wetRawR = reverbR + grainWetR * (1.0f - m.reverb);
+    const float wetMakeup = mapLinear(m.overlap, 1.15f, 1.65f);
+    const float wetL = sanitize(softClip(wetRawL * wetMakeup));
+    const float wetR = sanitize(softClip(wetRawR * wetMakeup));
 
     outL = softClip(xL * (1.0f - mix) + wetL * mix);
     outR = softClip(xR * (1.0f - mix) + wetR * mix);

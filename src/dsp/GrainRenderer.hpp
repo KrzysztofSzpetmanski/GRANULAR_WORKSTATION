@@ -26,7 +26,8 @@ public:
 
     void spawnGrain(std::array<Grain, kMaxGrains>& grains, const StereoRingBuffer& buffer, const GranularWorkstationParams& p) {
         const int activeCount = countActiveGrains(grains);
-        const int activeLimit = std::max(4, static_cast<int>(mapLinear(p.overlap, 8.0f, static_cast<float>(kMaxGrains))));
+        const float activeLimitF = mapLinear(p.overlap, 8.0f, static_cast<float>(kMaxGrains));
+        const int activeLimit = std::max(4, static_cast<int>(activeLimitF));
         if (activeCount >= activeLimit) {
             return;
         }
@@ -77,9 +78,10 @@ public:
         g.pan = rng_.nextSigned() * panWidth;
 
         const float densityHz = mapExp(p.density, 0.5f, 250.0f);
-        const float estimatedActive = std::max(1.0f, densityHz * (effectiveMs * 0.001f));
-        const float gainComp = 1.0f / std::sqrt(estimatedActive);
-        g.amp = 0.9f * gainComp;
+        float estimatedActive = std::max(1.0f, densityHz * (effectiveMs * 0.001f));
+        estimatedActive = std::min(estimatedActive, activeLimitF);
+        const float gainComp = 1.2f / std::sqrt(estimatedActive);
+        g.amp = std::min(1.1f, gainComp);
     }
 
     void renderGrains(std::array<Grain, kMaxGrains>& grains, const StereoRingBuffer& buffer, float space, float& wetL, float& wetR) {
